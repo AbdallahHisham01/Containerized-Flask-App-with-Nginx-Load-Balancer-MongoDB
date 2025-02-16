@@ -3,6 +3,10 @@
 This project is a containerized web application built using Flask, Nginx, and MongoDB. The architecture consists of multiple Flask application containers behind an Nginx load balancer, 
 a MongoDB container for data storage, and a data collector container that retrieves data from MongoDB and stores it on an NFS server.
 
+## Note
+
+You have to move loadbalancer.conf file to /etc/nginx/conf.d
+
 ## Project Structure
 ```sh
 .
@@ -21,3 +25,9 @@ a MongoDB container for data storage, and a data collector container that retrie
 │       └── index.html
 └── /etc/nginx/conf.d/loadbalancer.conf  # Nginx Load Balancer Configuration
 ```
+## Architecture Diagram
+
+![Architecture Diagram](myProject.png)
+
+
+
