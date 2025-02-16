@@ -29,5 +29,18 @@ You have to move loadbalancer.conf file to /etc/nginx/conf.d
 
 ![Architecture Diagram](myProject.png)
 
+## Host Configuration
 
+Open required ports on firewall
 
+```sh
+firewall-cmd --add-service=http --add-service=https
+firewall-cmd --add-port=8080/tcp
+```
+
+## NFS configuration
+
+Add this configuration in /etc/exports
+```sh
+/mnt/nfs_share *(rw,sync,no_root_squash,no_subtree_check)
+```
