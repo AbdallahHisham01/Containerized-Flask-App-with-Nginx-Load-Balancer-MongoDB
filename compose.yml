@@ -1,0 +1,67 @@
+services:
+  mongodb:
+     image: mongo
+     networks:
+       - todo_app_n
+     volumes:
+       - mongodb_v:/data/db
+  flask1:
+    build:
+      context:  ./flask-mongoDB-App
+    image: flask_app
+    ports:
+      - 8000:5000
+    networks:
+      - todo_app_n
+    environment:
+      MONGO_HOST: "todo-list-mongodb-1"
+      LOADBALANCER: "192.168.247.128"
+      
+  flask2: 
+    image: flask_app
+    ports:
+      - 8001:5000
+    networks:
+      - todo_app_n
+    environment:
+      MONGO_HOST: "todo-list-mongodb-1"
+      LOADBALANCER: "192.168.247.128"
+       
+  flask3: 
+    image: flask_app
+    ports:
+      - 8002:5000
+    networks:
+      - todo_app_n
+    environment:
+      MONGO_HOST: "todo-list-mongodb-1"
+      LOADBALANCER: "192.168.247.128"
+  
+  collector:
+    build:
+      context: ./data_collector
+    image: collector
+    volumes:
+      - mongodb_v:/mnt_mongodb
+      - nfs_storage:/mnt_nfs
+    networks:
+      - todo_app_n
+    environment:
+      SRC_PATH: /mnt_mongodb
+      DST_PATH: /mnt_nfs
+
+networks:
+  todo_app_n: 
+    ipam:
+      config:
+       - subnet: 11.0.0.0/24
+         gateway: 11.0.0.1
+
+volumes:
+  mongodb_v:
+    external: true
+  nfs_storage:
+    driver_opts:
+     type: "nfs"
+     o: "addr=192.168.247.130,rw"
+     device: ":/mnt/nfs_share"

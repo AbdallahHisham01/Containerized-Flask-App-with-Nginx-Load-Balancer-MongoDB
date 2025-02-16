@@ -1,0 +1,10 @@
+blinker
+click
+colorama
+dnspython
+flask
+itsdangerous
+jinja2
+markupsafe
+pymongo
+werkzeug
